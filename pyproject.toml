@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sum-pai"
-version = "0.2.0"
+version = "0.3.0"
 authors = [
   { name="Bill Schumacher", email="34168009+BillSchumacher@users.noreply.github.com" },
 ]
@@ -17,7 +17,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = ["build", "setuptools", "twine", "wheel", "openai", "loguru", "click",
- "python-dotenv", "black", "isort", "pytest", "tenacity","tiktoken", "cityhash", "numpy"]
+ "python-dotenv", "black", "isort", "pytest", "tenacity","tiktoken", "cityhash", "numpy",
+ "scikit-learn"]
 
 [project.scripts]
 sum_pai = "sum_pai.__main__:main"
