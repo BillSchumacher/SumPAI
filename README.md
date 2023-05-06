@@ -54,3 +54,14 @@ sum_pai <target>
 you can also set the logging level with LOG_LEVEL envvar or 
 
 `--log-level=DEBUG`
+
+
+### Searching
+
+There's a search embedding in the root of the project, will be used for testing.
+
+`search_project.exe --text "perform a knn search" --target src`
+
+Result:
+
+![SS](https://raw.githubusercontent.com/BillSchumacher/SumPAI/main/ss.png)
