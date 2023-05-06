@@ -46,23 +46,24 @@ def search_project(text: str, target: str, search_type: str):
                     summaries.append(pickle.load(f))
     embeddings = [summary["embedding"] for summary in summaries]
     logger.debug(f"Embeddings: {len(embeddings)}")
-    
+
     vector = None
     for embed in embeddings:
         logger.debug(f"Chunked Embeddings: {len(embed[1])}")
         embed = convert_embeddings_to_np(embed[0][0])
         logger.debug(f"Chunked Embedding: {len(embed)}")
         embed = embed[np.newaxis, :]
-        if vector is None:
-            vector = embed
-        else:
-            vector = np.concatenate(
+        vector = (
+            embed
+            if vector is None
+            else np.concatenate(
                 [
                     vector,
                     embed,
                 ],
                 axis=0,
             )
+        )
     logger.debug(f"Vector: {vector.shape}")
 
     if search_type == "knn":
