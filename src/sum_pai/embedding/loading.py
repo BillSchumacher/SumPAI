@@ -1,22 +1,13 @@
-import os
-import pickle
-
 import cityhash
+from loguru import logger
 
-from sum_pai.embedding.length_safe import len_safe_get_embedding
+from sum_pai.process.compare import same_hash
+from sum_pai.process.summary_embed import summarize_and_embed
 
 
-def save_or_load_embedding(element):
-    city_hash = cityhash.CityHash64(element["summary"])
-    output_name = f"{element['name']}__{city_hash}.sumpai"
-
-    if os.path.exists(output_name):
-        with open(output_name, "rb") as input_file:
-            loaded_element = pickle.load(input_file)
-            element["embedding"] = loaded_element["embedding"]
-    else:
-        element["embedding"] = len_safe_get_embedding(
-            f"Summary: {element['summary']} " f"Code: {element['source_code']}"
-        )
-        with open(output_name, "wb") as output_file:
-            pickle.dump(element, output_file)
+def load_embedding(code, code_type, obj_name, path, path_is_full=False):
+    city_hash = cityhash.CityHash64(code)
+    if loaded_sum := same_hash(city_hash, obj_name, path, path_is_full):
+        logger.debug(f"Loaded {loaded_sum} from {path}")
+        return loaded_sum
+    return summarize_and_embed(code, code_type, obj_name, path, city_hash=city_hash)

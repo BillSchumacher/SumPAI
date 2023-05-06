@@ -33,7 +33,7 @@ def main(directory_path, log_level, openai_api_key):
     setup_logging(log_level)
     from loguru import logger
 
-    logger.info("SumPAI - v0.0.20\n" "================\n")
+    logger.info("SumPAI - v0.2.0")
     logger.info(f"Logging is configured for {log_level} level.")
     process_directory(directory_path)
 
