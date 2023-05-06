@@ -22,6 +22,8 @@ dependencies = ["build", "setuptools", "twine", "wheel", "openai", "loguru", "cl
 
 [project.scripts]
 sum_pai = "sum_pai.__main__:main"
+create_search_embedding = "sum_pai.create_search_embedding:main"
+search_project = "sum_pai.search_project:main"
 
 [tool.hatch.build]
 exclude = [
@@ -44,6 +46,8 @@ allow-direct-references = true
 
 [tool.hatch.build.targets.wheel.force-include]
 "bin/sum_pai.py" = "src/sum_pai/__main__.py"
+"bin/create_search_embedding.py" = "src/sum_pai/create_search_embedding.py"
+"bin/search_project.py" = "src/sum_pai/search_project.py"
 
 [project.urls]
 "Homepage" = "https://github.com/BillSchumacher/SumPAI"
