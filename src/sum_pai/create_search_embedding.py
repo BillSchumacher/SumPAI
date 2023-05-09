@@ -1,16 +1,20 @@
-import click
 import os
 import pickle
+
 import cityhash
+import click
+
 from sum_pai.embedding.convert import convert_embeddings_to_np
 from sum_pai.embedding.length_safe import len_safe_get_embedding
-
 from sum_pai.summary.text import summarize_text
 
 
 @click.command()
-@click.option("--text", prompt="Enter the text to summarize and create an embedding", 
-              help="Text to summarize and create an embedding.")
+@click.option(
+    "--text",
+    prompt="Enter the text to summarize and create an embedding",
+    help="Text to summarize and create an embedding.",
+)
 def main(text: str):
     return create_search(text)
 
@@ -28,7 +32,7 @@ def create_search(text: str):
     if os.path.exists(file_name):
         print(f"Search embedding already exists for {text}")
         return pickle.load(open(file_name, "rb"))
-    
+
     # Summarize the input text
     summary = summarize_text(text)
     print(f"Summary: {summary}")
@@ -39,11 +43,7 @@ def create_search(text: str):
 
     # Convert the embedding to a NumPy array and print it
     embedding_array = convert_embeddings_to_np(embedding)
-    search_embedding = {
-        "embedding": embedding_array,
-        "summary": summary,
-        "text": text
-    }
+    search_embedding = {"embedding": embedding_array, "summary": summary, "text": text}
     with open(file_name, "wb") as f:
         pickle.dump(search_embedding, f)
     print(f"Search embedding created for {text}")

@@ -1,51 +1,16 @@
-from venv import logger
+from loguru import logger
 
-import openai
-
-
-def summarize_code(text: str) -> str:
-    """Generates a summary for the given Python code using OpenAI's Davinci Codex.
-
-    Args:
-        text (str): The Python code to summarize.
-
-    Returns:
-        str: The generated summary of the code.
-    """
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "Summarize the following Python code:"},
-            {"role": "user", "content": text},
-        ],
-        max_tokens=256,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
-    logger.debug(f"Summarization response: {response}")
-    return response.choices[0].message["content"].strip()
+from sum_pai.summary.chat_completion import chat_completion
 
 
 def summarize_text(text: str) -> str:
-    """Generates a summary for the given Python code using OpenAI's Davinci Codex.
+    """Generates a summary for the given text using OpenAI's ChatCompletion.
 
     Args:
-        text (str): The Python code to summarize.
+        text (str): The text to summarize.
 
     Returns:
-        str: The generated summary of the code.
+        str: The generated summary of the text.
     """
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "Summarize the following:"},
-            {"role": "user", "content": text},
-        ],
-        max_tokens=512,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
-    logger.debug(f"Summarization response: {response}")
-    return response.choices[0].message["content"].strip()
+    logger.info("Summarizing text")
+    return chat_completion(f"Extract the main features:\n\n{text}")

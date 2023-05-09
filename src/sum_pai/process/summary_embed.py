@@ -1,9 +1,11 @@
 from typing import Any, Dict, Optional
 
 import cityhash
+from loguru import logger
 
 from sum_pai.embedding.length_safe import len_safe_get_embedding
-from sum_pai.summary.text import summarize_code
+from sum_pai.summary.code import summarize_code
+from sum_pai.summary.text import summarize_text
 
 
 def summarize_and_embed(
@@ -27,8 +29,16 @@ def summarize_and_embed(
         Dict[str, Any]: A dictionary containing the type, name, path,
           summary, and embedding of the code element.
     """
+    logger.info(
+        f"Summarizing and embedding code for: {name} path:"
+        f" {path} type: {source_type}"
+    )
+    system = None
     if summary is None:
-        summary = summarize_code(source)
+        if source_type == "directory":
+            summary = summarize_text(source)
+        else:
+            summary = summarize_code(source, system=system)
     if city_hash is None:
         city_hash = cityhash.CityHash64(source)
     embedding = len_safe_get_embedding(f"Summary: {summary} Code: {source}")
