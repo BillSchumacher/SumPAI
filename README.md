@@ -31,6 +31,8 @@ It is intended for the files to be commited to the git repo and not for use by h
 
 If you're not sure why you might need to run this you probably don't.
 
+If you have a large project be aware that this code will scale models based on token count, for very large projects this might mean you will use gpt-4-32k.
+
 ## Installation
 
 ```

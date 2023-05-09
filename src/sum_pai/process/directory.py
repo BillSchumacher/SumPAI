@@ -7,7 +7,7 @@ from sum_pai.file_io import save_sum
 from sum_pai.process.compare import same_hash
 from sum_pai.process.file import process_file
 from sum_pai.process.summary_embed import summarize_and_embed
-from sum_pai.summary.text import summarize_text
+from sum_pai.summary.feature import summarize_features
 
 
 def process_directory(directory_path: str) -> None:
@@ -30,8 +30,9 @@ def process_directory(directory_path: str) -> None:
     logger.info(f"Processed {len(file_summaries)} files")
     collated_summary = "\n".join(
         [
-            f"{file_path}: {file_summary}\n"
+            f"File: {file_path}: {file_summary}\n"
             for file_path, file_summary in file_summaries.items()
+            if not file_summary.strip().startswith("As an AI")
         ]
     )
     logger.debug(f"Collated summary:\n{collated_summary}")
@@ -39,7 +40,7 @@ def process_directory(directory_path: str) -> None:
     existing_output_name = f"{directory_path}__dir_overview.sumpai"
     if same_hash(city_hash, "dir_overview", existing_output_name, path_is_full=True):
         return
-    summary = summarize_text(collated_summary)
+    summary = summarize_features(collated_summary)
     logger.debug(f"Summary:\n{summary}")
     save_sum(
         existing_output_name,

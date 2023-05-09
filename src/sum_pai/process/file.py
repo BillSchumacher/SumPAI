@@ -7,7 +7,7 @@ from sum_pai.file_io import load_sum, save_sum
 from sum_pai.process.code_element import process_code_elements
 from sum_pai.process.compare import same_hash
 from sum_pai.process.summary_embed import summarize_and_embed
-from sum_pai.summary.text import summarize_text
+from sum_pai.summary.feature import summarize_features
 
 
 def process_file(file_path: str) -> Optional[str]:
@@ -35,7 +35,7 @@ def process_file(file_path: str) -> Optional[str]:
         return loaded_sum["summary"]
     code_elements = process_code_elements(code, str(path))
     summaries = [element["summary"] for element in code_elements]
-    file_summary = summarize_text("\n".join(summaries))
+    file_summary = summarize_features("\n".join(summaries))
 
     save_sum(
         existing_output_name,

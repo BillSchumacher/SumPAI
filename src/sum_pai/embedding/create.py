@@ -13,7 +13,7 @@ from sum_pai.constants import EMBEDDING_MODEL
 
 @retry(
     wait=wait_random_exponential(min=1, max=20),
-    stop=stop_after_attempt(2),
+    stop=stop_after_attempt(4),
     retry=retry_if_not_exception_type(openai.InvalidRequestError),
 )
 def get_embedding(
