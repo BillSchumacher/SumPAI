@@ -56,16 +56,17 @@ def search_project(text: str, target: str, search_type: str):
         embed = convert_embeddings_to_np(embed[0][0])
         logger.debug(f"Chunked Embedding: {len(embed)}")
         embed = embed[np.newaxis, :]
-        if vector is None:
-            vector = embed
-        else:
-            vector = np.concatenate(
+        vector = (
+            embed
+            if vector is None
+            else np.concatenate(
                 [
                     vector,
                     embed,
                 ],
                 axis=0,
             )
+        )
     logger.debug(f"Vector: {vector.shape}")
 
     if search_type == "knn":

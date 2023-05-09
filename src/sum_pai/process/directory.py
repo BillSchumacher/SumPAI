@@ -24,8 +24,7 @@ def process_directory(directory_path: str) -> None:
         for file in files:
             if file.endswith(".py"):
                 file_path = os.path.join(root, file)
-                file_summary = process_file(file_path)
-                if file_summary:
+                if file_summary := process_file(file_path):
                     file_summaries[file_path] = file_summary
     logger.info(f"Processed {len(file_summaries)} files")
     collated_summary = "\n".join(
